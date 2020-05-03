@@ -1,0 +1,31 @@
+# Comandos para cargar los datasets del github al cluster de HDFS en el DCA #
+
+## Listado y creación de archivos iniciales:
+hdfs dfs -ls /
+hdfs dfs -ls /user
+hdfs dfs -ls /user/jscardonag
+hdfs dfs -ls /datasets
+hdfs dfs -mkdir /user/jscardonag
+hdfs dfs -mkdir /user/jscardonag/datasets
+
+
+## Carga de archivos al HDFS y verificación de la correcta carga de los datos:
+git clone https://github.com/jhoancardona07/TET-labs-bigdata.git
+-copyFromLocal TET-labs-bigdata/datasets/* /user/jscardonag/datasets
+hdfs dfs -ls /user/jscardonag/datasets
+hdfs dfs -ls /user/jscardonag/datasets/gutenberg
+
+## Carga y listado de archivos del HDFS al servidor local:
+mkdir mis_datasets
+hdfs dfs -copyToLocal /user/jscardonag/datasets/gutenberg-small/*.txt ~jscardonag/mis_datasets/
+ls -l mis_datasets
+
+## Otros comandos para cargar o traer datos hacia HDFS o desde HDFS respectivamente:
+### Carga:
+hdfs dfs -mkdir /user/jscardonag/datasets/gutenberg
+hdfs dfs -put /datasets/gutenberg-smal/*.txt /user/jscardonag/datasets/gutenberg/
+
+### Descarga:
+mkdir mis_datasets
+hdfs dfs -get /user/jscardonag/gutenberg-small/*.txt ~jscardonag/mis_datasets/
+

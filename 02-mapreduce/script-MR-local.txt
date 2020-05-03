@@ -1,0 +1,14 @@
+# Pasos y scripts necesarios para correr el laboratorio de Map/Reduce de forma local #
+
+## Instalación de mrjob:
+
+### Instalar python3
+### Instalar pip
+pip install mrjob
+
+## Correr el WordCount sin MR:
+python ./files/wordcount-local.py ../datasets/gutenberg-small/*.txt > ./files/wordcount-output-local.txt
+
+## Correr el WordCount con MR:
+python ./files/wordcount-mr.py ../datasets/gutenberg-small/*.txt > ./files/wordcount-output-mr.txt
+
