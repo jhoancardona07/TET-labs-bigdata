@@ -11,3 +11,8 @@ python ./files/wordcount-local.py ../datasets/gutenberg-small/*.txt > ./files/wo
 ## Correr el WordCount con MR:
 python ./files/wordcount-mr.py ../datasets/gutenberg-small/*.txt > ./files/wordcount-output-mr.txt
 
+## Correr MRJob en el DCA con entrada y salida en HDFS
+### Dentro de la carpeta 02-mapreduce clonada en el repositorio copiar el archivo de hadoop streaming de la siguiente ruta:
+hdfs dfs -get /hdp/apps/3.1.4.0-315/mapreduce/hadoop-streaming.jar
+### Ejecutar el mrjob
+python wordcount-mr.py -r hadoop hdfs:///user/jscardonag/datasets/gutenberg-small/*.txt --output-dir hdfs:///user/jscardonag/results1 --hadoop-streaming-jar ./hadoop-streaming.jar 

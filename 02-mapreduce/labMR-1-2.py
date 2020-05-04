@@ -1,6 +1,6 @@
 from mrjob.job import MRJob
 
-class averageSalary_employee(MRJob)::
+class averageSalary_employee(MRJob):
 
     def mapper(self, _, line):
         idemp, sececon, salary, year = line.split(',')
