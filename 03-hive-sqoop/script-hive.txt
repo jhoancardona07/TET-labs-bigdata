@@ -1,0 +1,49 @@
+# Querys realizadas en Hive
+
+## Querys iniciales del laboratorio
+CREATE DATABASE bigdataDB
+
+use bigdataDB;
+CREATE EXTERNAL TABLE HDI (id INT, country STRING, hdi FLOAT, lifeex INT, mysch INT, eysch INT, gni INT) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE 
+LOCATION 's3://jscardonag/datasets/onu/hdi/'
+
+use bigdataDB;
+SHOW TABLES;
+DESCRIBE hdi;
+
+SELECT * FROM hdi;
+
+SELECT country, gni FROM hdi where gni > 15000
+
+USE bigdataDB;
+CREATE EXTERNAL TABLE EXPO (country STRING, expct FLOAT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 's3://jscardonag/datasets/onu/export/'
+
+SELECT h.country, gni, expct FROM hdi h JOIN expo e ON (h.country = e.country) WHERE gni > 15000;
+
+## Querys para realizar el WordCount
+USE bigdataDB;
+CREATE EXTERNAL TABLE wordcount (line STRING)
+STORED AS TEXTFILE
+LOCATION 's3://jscardonag/datasets/gutenberg-small/';
+
+SELECT word, count(1) AS count FROM (SELECT explode(split(line, ' ')) AS word FROM wordcount) w
+GROUP BY word
+ORDER BY word DESC LIMIT 5;
+
+SELECT word, count(1) AS count FROM (SELECT explode(split(line, ' ')) AS word FROM wordcount) w
+GROUP BY word
+ORDER BY count DESC LIMIT 5;
+
+## Querys para el Reto de este laboratorio
+CREATE TABLE reto (word STRING, count INT);
+
+INSERT INTO reto SELECT word, count(1) AS count FROM (SELECT explode(split(line, ' ')) AS word FROM wordcount) w
+GROUP BY word
+ORDER BY count DESC LIMIT 5;
+
+SELECT * FROM reto;
